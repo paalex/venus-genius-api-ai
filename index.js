@@ -1,19 +1,12 @@
 'use strict'
 
-var Botkit = require('botkit');
-var watson = require('watson-developer-cloud');
-var conversation = watson.conversation({
-  username: process.env.USER_NAME_WATSON,
-  password: process.env.PASSWORD_WATSON,
-  version: 'v1',
-  version_date: '2016-09-20'
-});
-console.log(conversation);
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 const token = process.env.FB_PAGE_ACCESS_TOKEN
+const API_AI_URL = 'https://api.api.ai/v1/'
+const API_AI_ACCESS_TOKEN = 'a6400dc45feb42c291f77cde640be781'
 var context = {};
 
 app.set('port', (process.env.PORT || 5000))
@@ -31,7 +24,7 @@ app.get('/', function (req, res) {
 
 // for Facebook verification
 app.get('/webhook/', function (req, res) {
-    if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
+    if (req.query['hub.verify_token'] === 'hello-genius') {
         res.send(req.query['hub.challenge'])
     }
     res.send('Error, wrong token')
@@ -40,6 +33,7 @@ app.get('/webhook/', function (req, res) {
 // Spin up the server
 app.listen(app.get('port'), function() {
     console.log('running on port', app.get('port'))
+    sendToApiAi();
 })
 
 // API endpoint to index.js to process messages
@@ -196,23 +190,49 @@ function sendCardsMessage(sender, message) {
 
 }
 
-function sendToWatson(sender, text, context) {
+function sendToApiAi(/*sender, text, context*/) {
   // Replace with the context obtained from the initial request
-  conversation.message({
-    workspace_id: process.env.WATSON_WORKSPACE_ID,
-    input: {'text': text},
-    context: context
-  },  function(err, response) {
-      if (err) {
-        console.log('error:', err);
-      } else {
-        console.log(JSON.stringify(response, null, 2));
-        if (response.output.text[0] === "cards") {
-          sendCardsMessage(sender);
-        } else {
-          sendTextMessage(sender, response.output.text[0]);
+
+  request({
+        url: API_AI_URL + '/query?v=20170201', //YYYYMMDD
+        method: 'POST',
+        Authorization: Bearer API_AI_ACCESS_TOKEN,
+        Content-Type: application/json; charset=utf-8
+        body:
+        {
+            "query": [
+                "הייייי זה השרת"
+            ],
+            "contexts": [{
+                "name": "weather",
+                "lifespan": 4
+            }],
+            "timezone": "America/New_York",
+            "lang": "en",
         }
-      }
-    }
-  );
+      }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending messages: ', error)
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error)
+        }
+    })
+
+  // conversation.message({
+  //   input: {'text': text},
+  //   context: context
+  // },  function(err, response) {
+  //     if (err) {
+  //       console.log('error:', err);
+  //     } else {
+  //       console.log(JSON.stringify(response, null, 2));
+  //       if (response.output.text[0] === "cards") {
+  //         sendCardsMessage(sender);
+  //       } else {
+  //         sendTextMessage(sender, response.output.text[0]);
+  //       }
+  //     }
+  //   }
+  // );
+
 }
