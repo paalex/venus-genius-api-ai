@@ -17,7 +17,9 @@
   "devDependencies": {
     "api-ai-javascript": "^2.0.0-beta.14",
     "babel-cli": "^6.22.2",
+    "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
-    "babel-preset-stage-0": "^6.22.0"
+    "babel-preset-stage-0": "^6.22.0",
+    "webpack": "^2.2.1"
   }
 }
