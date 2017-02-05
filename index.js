@@ -200,7 +200,7 @@ function sendToApiAi(/*sender, text, context*/) {
           Authorization: 'Bearer ' + API_AI_ACCESS_TOKEN,
           "Content-Type": 'application/json'//; //charset=utf-8
         },
-        body:
+        body: JSON.stringify(
         {
             "query": [
                 "הייייי זה השרת"
@@ -211,7 +211,7 @@ function sendToApiAi(/*sender, text, context*/) {
             }],
             "timezone": "America/New_York",
             "lang": "en",
-        }
+        })
       }, function(error, response, body) {
         if (error) {
             console.log('Error sending messages: ', error)
