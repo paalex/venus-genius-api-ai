@@ -1,7 +1,6 @@
 'use strict'
 
 import {ApiAiClient} from "api-ai-javascript";
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
