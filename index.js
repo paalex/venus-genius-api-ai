@@ -1,5 +1,7 @@
 'use strict'
 
+import {ApiAiClient} from "api-ai-javascript";
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
@@ -7,7 +9,7 @@ const app = express()
 const token = process.env.FB_PAGE_ACCESS_TOKEN
 const API_AI_URL = 'https://api.api.ai/v1/'
 const API_AI_ACCESS_TOKEN = 'a6400dc45feb42c291f77cde640be781'
-const client = new ApiAi.ApiAiClient(API_AI_ACCESS_TOKEN);
+const client = new ApiAiClient(API_AI_ACCESS_TOKEN);
 
 var context = {};
 
@@ -193,21 +195,12 @@ function sendCardsMessage(sender, message) {
 }
 
 function sendToApiAi(/*sender, text, context*/) {
-  let promise = client.textRequest('longTextRequest');
-  promise.then(handleResponse).catch(heandleError);
-
-  function handleResponse(serverResponse) {
-          console.log(serverResponse);
-  }
-  function heandleError(serverError) {
-          console.log(serverError);
-  }
-  // client.textRequest('Hello from server!')
-  //   .then((response) => {
-  //     console.log('response - ', response)
-  //   /* do something */
-  // })
-  //   .catch((error) => {console.log('error - ', error)/* do something here too */})
+  client.textRequest('Hello from server!')
+    .then((response) => {
+      console.log('response - ', response)
+    /* do something */
+  })
+    .catch((error) => {console.log('error - ', error)/* do something here too */})
   // Replace with the context obtained from the initial request
 
   // request({
