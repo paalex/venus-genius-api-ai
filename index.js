@@ -1,5 +1,7 @@
 'use strict'
 
+import {ApiAiClient} from "api-ai-javascript";
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
@@ -7,6 +9,8 @@ const app = express()
 const token = process.env.FB_PAGE_ACCESS_TOKEN
 const API_AI_URL = 'https://api.api.ai/v1/'
 const API_AI_ACCESS_TOKEN = 'a6400dc45feb42c291f77cde640be781'
+const client = new ApiAiClient(API_AI_ACCESS_TOKEN);
+
 var context = {};
 
 app.set('port', (process.env.PORT || 5000))
@@ -191,35 +195,41 @@ function sendCardsMessage(sender, message) {
 }
 
 function sendToApiAi(/*sender, text, context*/) {
+  client.textRequest('Hello from server!')
+    .then((response) => {
+      console.log('response - ', response)
+    /* do something */
+  })
+    .catch((error) => {console.log('error - ', error)/* do something here too */})
   // Replace with the context obtained from the initial request
 
-  request({
-        url: API_AI_URL + '/query?v=20170201', //YYYYMMDD
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + API_AI_ACCESS_TOKEN,
-          "Content-Type": 'application/json'//; //charset=utf-8
-        },
-        body: JSON.stringify(
-        {
-            "query": [
-                "הייייי זה השרת"
-            ],
-            "contexts": [{
-                "name": "weather",
-                "lifespan": 4
-            }],
-            "timezone": "America/New_York",
-            "lang": "en",
-        })
-      }, function(error, response, body) {
-        if (error) {
-            console.log('Error sending messages: ', error)
-        } else if (response.body.error) {
-            console.log('Error: ', response.body.error)
-        }
-        console.log(response.body);
-    })
+  // request({
+  //       url: API_AI_URL + '/query?v=20170201', //YYYYMMDD
+  //       method: 'POST',
+  //       headers: {
+  //         Authorization: 'Bearer ' + API_AI_ACCESS_TOKEN,
+  //         "Content-Type": 'application/json'//; //charset=utf-8
+  //       },
+  //       body: JSON.stringify(
+  //       {
+  //           "query": [
+  //               "הייייי זה השרת"
+  //           ],
+  //           "contexts": [{
+  //               "name": "weather",
+  //               "lifespan": 4
+  //           }],
+  //           "timezone": "America/New_York",
+  //           "lang": "en",
+  //       })
+  //     }, function(error, response, body) {
+  //       if (error) {
+  //           console.log('Error sending messages: ', error)
+  //       } else if (response.body.error) {
+  //           console.log('Error: ', response.body.error)
+  //       }
+  //       console.log(response.body);
+  //   })
 
   // conversation.message({
   //   input: {'text': text},
