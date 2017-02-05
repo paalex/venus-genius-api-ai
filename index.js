@@ -196,8 +196,10 @@ function sendToApiAi(/*sender, text, context*/) {
   request({
         url: API_AI_URL + '/query?v=20170201', //YYYYMMDD
         method: 'POST',
-        Authorization: Bearer API_AI_ACCESS_TOKEN,
-        Content-Type: application/json; charset=utf-8
+        Headers: {
+          Authorization: 'Bearer ' + API_AI_ACCESS_TOKEN,
+          Content-Type: application/json; charset=utf-8
+        }
         body:
         {
             "query": [
