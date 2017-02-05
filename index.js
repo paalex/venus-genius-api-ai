@@ -1,6 +1,6 @@
 'use strict'
 
-const apiAiClient =require("api-ai-javascript/ApiAiClient");
+const client = new ApiAi.ApiAiClient('YOUR_ACCESS_TOKEN');
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
@@ -194,12 +194,21 @@ function sendCardsMessage(sender, message) {
 }
 
 function sendToApiAi(/*sender, text, context*/) {
-  client.textRequest('Hello from server!')
-    .then((response) => {
-      console.log('response - ', response)
-    /* do something */
-  })
-    .catch((error) => {console.log('error - ', error)/* do something here too */})
+  let promise = client.textRequest('longTextRequest');
+  promise.then(handleResponse).catch(heandleError);
+
+  function handleResponse(serverResponse) {
+          console.log(serverResponse);
+  }
+  function heandleError(serverError) {
+          console.log(serverError);
+  }
+  // client.textRequest('Hello from server!')
+  //   .then((response) => {
+  //     console.log('response - ', response)
+  //   /* do something */
+  // })
+  //   .catch((error) => {console.log('error - ', error)/* do something here too */})
   // Replace with the context obtained from the initial request
 
   // request({
