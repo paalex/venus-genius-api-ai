@@ -198,7 +198,7 @@ function sendToApiAi(/*sender, text, context*/) {
         method: 'POST',
         Headers: {
           Authorization: 'Bearer ' + API_AI_ACCESS_TOKEN,
-          "Content-Type": application/json; charset=utf-8
+          "Content-Type": 'application/json'; //charset=utf-8
         }
         body:
         {
