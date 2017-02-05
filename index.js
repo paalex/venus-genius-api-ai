@@ -218,7 +218,7 @@ function sendToApiAi(/*sender, text, context*/) {
         } else if (response.body.error) {
             console.log('Error: ', response.body.error)
         }
-        console.log(response);
+        console.log(response.toJSON);
     })
 
   // conversation.message({
