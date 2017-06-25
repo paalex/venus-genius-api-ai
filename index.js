@@ -11,6 +11,7 @@ const API_AI_URL = 'https://api.api.ai/v1/'
 const API_AI_ACCESS_TOKEN = 'a6400dc45feb42c291f77cde640be781'
 const client = new ApiAiClient(API_AI_ACCESS_TOKEN);
 
+
 var context = {};
 
 app.set('port', (process.env.PORT || 5000))
